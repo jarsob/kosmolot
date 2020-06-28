@@ -34,7 +34,7 @@ public class Kosmolot {
             String[] shieldElement = {"\\", "/"};
             String specialShieldElement = ">";
 
-            // main loop
+            // main loop, 2*recketSize -1 = number of lines to print
             for (int i = 1; i < 2 * rocketSize; i++) {
 
                 // length of stars block in each line
