@@ -1,5 +1,3 @@
-import java.util.Collections;
-
 public class Kosmolot {
     public static void main(String[] args) {
 
@@ -8,73 +6,86 @@ public class Kosmolot {
         String mustHaveShieldStr;
         boolean mustHaveShield;
 
-        StringBuilder rocketElement = new StringBuilder();
-        StringBuilder rocketLine = new StringBuilder();
+        try {
 
-//      długość bloku gwiazdki i spacje w linii wynosi n
-//      w środkowej linii nie ma spacji
-        // n - rozmiar rakiety, 2*n-1 : ilość linii do wydruku
-        rocketSizeStr = args[0];
-        rocketSize = Integer.parseInt(rocketSizeStr.trim());
-        mustHaveShieldStr = args[1].trim();
-
-
-        // wartości testowe
-//       tHaveShieldStr = "Y"; rocketSize = 5;
-////        mus
-
-        mustHaveShield = mustHaveShieldStr.equals("Y");
-        String[] shieldElement = {"\\", "/"};
-        String basicElement = "*";
-        String specialShieldElement = ">";
-
-
-        // main loop
-        for (int i = 1; i < 2 * rocketSize; i++) {
-
-            // k - długość bloku gwiazdek w linii, w każdej linii ma być n bloków gwiazdek
-            lengthOfStars = rocketSize - Math.abs(rocketSize - i);
-
-            rocketElement.append(String.join("",Collections.nCopies(lengthOfStars,basicElement)));
-
-
-
-//            for (int j = 0; j < lengthOfStars; j++) {
-//                rocketElement.append(basicElement);
-//            }
-
-            if (mustHaveShield && i != rocketSize) {
-                rocketElement.replace(rocketElement.length() - 1, rocketElement.length(), i < rocketSize ? shieldElement[0] : shieldElement[1]);
+            //check if rocket size is valid
+            rocketSizeStr = args[0];
+            rocketSize = Integer.parseInt(rocketSizeStr.trim());
+            if (!(rocketSize >= 1 && rocketSize <= 75)) {
+                throw new Exception();
             }
 
-            rocketElement.append(String.join("",Collections.nCopies(rocketSize - lengthOfStars," ")));
+            //check if shield option is valid
+            mustHaveShieldStr = args[1].trim();
+            if (!(mustHaveShieldStr.equals("N") || mustHaveShieldStr.equals("Y"))) {
+                throw new Exception();
+            }
+            mustHaveShield = mustHaveShieldStr.equals("Y");
 
-//            for (int j = 0; j < rocketSize - lengthOfStars; j++) {
-//                rocketElement.append(" ");
-//            }
+            //throw exception if there is redundant third parameter
+            if (args.length > 2) {
+                throw new Exception();
+            }
 
-            rocketLine.append(String.join("", Collections.nCopies(rocketSize, rocketElement)));
+            StringBuilder rocketElement = new StringBuilder();
+            StringBuilder rocketLine = new StringBuilder();
 
-//            for (int j = 0; j < rocketSize; j++) {
-//                rocketLine.append(rocketElement);
-//            }
+            String basicElement = "*";
+            String[] shieldElement = {"\\", "/"};
+            String specialShieldElement = ">";
 
-            if (mustHaveShield) {
-                rocketLine.replace(0, 1, specialShieldElement);
-                if (i == rocketSize) {
-                    rocketLine.replace(rocketLine.length() - 1, rocketLine.length(), specialShieldElement);
+            // main loop
+            for (int i = 1; i < 2 * rocketSize; i++) {
+
+                // length of stars block in each line
+                lengthOfStars = rocketSize - Math.abs(rocketSize - i);
+
+                //filling up rocket element with stars
+                for (int j = 0; j < lengthOfStars; j++) {
+                    rocketElement.append(basicElement);
                 }
+
+                // for shield change last star to slash/backslash, not in the longest line
+                if (mustHaveShield && i != rocketSize) {
+                    rocketElement.replace(rocketElement.length() - 1, rocketElement.length(), i < rocketSize ? shieldElement[0] : shieldElement[1]);
+                }
+
+                //completing rocket element with blanks
+                for (int j = 0; j < rocketSize - lengthOfStars; j++) {
+                    rocketElement.append(" ");
+                }
+
+                //joining rocket elements to complete one line
+                for (int j = 0; j < rocketSize; j++) {
+                    rocketLine.append(rocketElement);
+                }
+
+
+                if (mustHaveShield) {
+                    //for shield replace first sign
+                    rocketLine.replace(0, 1, specialShieldElement);
+
+                    //for shield replace last sign in the longest line
+                    if (i == rocketSize) {
+                        rocketLine.replace(rocketLine.length() - 1, rocketLine.length(), specialShieldElement);
+                    }
+                }
+
+                //print one whole line
+                System.out.print(rocketLine);
+
+                //clear rocketElement and rocketLine
+                rocketElement.setLength(0);
+                rocketLine.setLength(0);
+
+                //print blank line
+                System.out.println();
+
             }
 
-            System.out.print(rocketLine);
-
-            //clear brick and rocketLine
-            rocketElement.setLength(0);
-            rocketLine.setLength(0);
-//            rocketElement.delete(0, rocketElement.length());
-//            rocketLine.delete(0, rocketLine.length());
-            System.out.println();
-
+        } catch (Exception e) {
+            //at case any exception print "klops"
+            System.out.println("klops");
         }
 
     }
