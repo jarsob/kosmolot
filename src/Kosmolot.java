@@ -20,8 +20,8 @@ public class Kosmolot {
 
 
         // wartości testowe
-        rocketSize = 5;
-        mustHaveShieldStr = "Y";
+//       tHaveShieldStr = "Y"; rocketSize = 5;
+////        mus
 
         mustHaveShield = mustHaveShieldStr.equals("Y");
         String[] shieldElement = {"\\", "/"};
