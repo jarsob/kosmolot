@@ -9,8 +9,8 @@ public class Kosmolot {
         try {
 
             //check if rocket size is valid
-            rocketSizeStr = args[0];
-            rocketSize = Integer.parseInt(rocketSizeStr.trim());
+            rocketSizeStr = args[0].trim();
+            rocketSize = Integer.parseInt(rocketSizeStr);
             if (!(rocketSize >= 1 && rocketSize <= 75)) {
                 throw new Exception();
             }
